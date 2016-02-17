@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SourceChord.Lighty.Styles">
+    <ControlTemplate x:Key="defaultTemplate">
+        <Grid Background="#88000000">
+            <ItemsPresenter />
+        </Grid>
+    </ControlTemplate>
+    <ItemsPanelTemplate x:Key="defaultPanel">
+        <!--<StackPanel Orientation="Horizontal" />-->
+        <Grid />
+    </ItemsPanelTemplate>
+</ResourceDictionary>
