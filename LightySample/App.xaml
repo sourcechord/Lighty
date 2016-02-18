@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:LightySample"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="pack://application:,,,/Lighty;component/Styles.xaml" />
     </Application.Resources>
 </Application>

@@ -17,7 +17,7 @@ namespace SourceChord.Lighty
     public class LightBoxAdorner : Adorner
     {
         private static readonly ResourceDictionary defaultResource;
-        private ItemsControl _root;
+        private LightBoxItemsControl _root;
 
         public EventHandler AllDialogClosed;
 
@@ -29,7 +29,7 @@ namespace SourceChord.Lighty
 
         public LightBoxAdorner(UIElement adornedElement, UIElement element) : base(adornedElement)
         {
-            var root = new ItemsControl();
+            var root = new LightBoxItemsControl();
 
             // ココで各種テンプレートなどの設定
             var template = LightBox.GetTemplate(element);
@@ -54,7 +54,18 @@ namespace SourceChord.Lighty
             this._root.Items.Add(dialog);
 
             // 追加したダイアログに対して、ApplicationCommands.Closeのコマンドに対するハンドラを設定。
-            dialog.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
+            dialog.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, (s, e) =>
+            {
+                this.RemoveDialog(dialog);
+            }));
+
+            // ItemsControlにもApplicationCommands.Closeのコマンドに対するハンドラを設定。
+            // (ItemsContainerからもCloseコマンドを送って閉じられるようにするため。)
+            var parent = dialog.Parent as FrameworkElement;
+            parent.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, (s, e) =>
+            {
+                this.RemoveDialog(e.Parameter as FrameworkElement);
+            }));
 
             this.InvalidateVisual();
         }
@@ -67,16 +78,6 @@ namespace SourceChord.Lighty
             {
                 // このAdornerを消去するように依頼するイベントを発行する。
                 AllDialogClosed?.Invoke(this, null);
-            }
-        }
-
-        private void OnClose(object sender, ExecutedRoutedEventArgs e)
-        {
-            var item = sender as FrameworkElement;
-
-            if (item != null)
-            {
-                this.RemoveDialog(item);
             }
         }
 
@@ -104,6 +105,21 @@ namespace SourceChord.Lighty
         {
             this._root.Arrange(new Rect(new Point(0, 0), finalSize));
             return new Size(this._root.ActualWidth, this._root.ActualHeight);
+        }
+    }
+
+    class LightBoxItemsControl : ItemsControl
+    {
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            //return base.GetContainerForItemOverride();
+            return new ContentControl();
+        }
+
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            //return base.IsItemItsOwnContainerOverride(item);
+            return false;
         }
     }
 }

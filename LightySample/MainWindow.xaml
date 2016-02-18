@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LightySample"
         xmlns:wb="clr-namespace:SourceChord.Lighty;assembly=Lighty"
+        wb:LightBox.ItemContainerStyle="{StaticResource closableContainerStyle}"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <wb:LightBox.Template>
@@ -19,7 +20,7 @@
             <StackPanel Orientation="Horizontal" />
         </ItemsPanelTemplate>
     </wb:LightBox.ItemsPanel>
-    <wb:LightBox.ItemContainerStyle>
+    <!--<wb:LightBox.ItemContainerStyle>
         <Style TargetType="{x:Type ContentControl}">
             <Setter Property="ContentTemplate">
                 <Setter.Value>
@@ -37,7 +38,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </wb:LightBox.ItemContainerStyle>
+    </wb:LightBox.ItemContainerStyle>-->
     <Window.Resources />
     <Grid>
         <Button Margin="50"

@@ -18,4 +18,20 @@
     <ItemsPanelTemplate x:Key="verticalPanel">
         <StackPanel Orientation="Vertical" />
     </ItemsPanelTemplate>
+    
+    <!-- 各種コンテナ用スタイル -->
+    <Style x:Key="closableContainerStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Right"
+                                Command="ApplicationCommands.Close" CommandParameter="{Binding}"
+                                FontFamily="Marlett" Content="r" />
+                        <ContentPresenter Content="{Binding}" />
+                    </DockPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
