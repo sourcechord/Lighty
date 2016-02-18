@@ -8,9 +8,9 @@ using System.Windows;
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
 [assembly: AssemblyTitle("Lighty")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("LightBox control for WPF")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("SourceChord")]
 [assembly: AssemblyProduct("Lighty")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
