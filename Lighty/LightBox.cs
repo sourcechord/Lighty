@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Threading;
 
 namespace SourceChord.Lighty
 {
@@ -15,6 +16,17 @@ namespace SourceChord.Lighty
         {
             var adorner = GetAdorner(owner);
             adorner.AddDialog(content);
+        }
+
+        public static void ShowDialog(UIElement owner, FrameworkElement content)
+        {
+            var adorner = GetAdorner(owner);
+
+            var frame = new DispatcherFrame();
+            adorner.AllDialogClosed += (s, e) => { frame.Continue = false; };
+            adorner.AddDialog(content);
+
+            Dispatcher.PushFrame(frame);
         }
 
         private static LightBoxAdorner GetAdorner(UIElement element)

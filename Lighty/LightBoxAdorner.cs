@@ -29,9 +29,6 @@ namespace SourceChord.Lighty
 
         public LightBoxAdorner(UIElement adornedElement, UIElement element) : base(adornedElement)
         {
-            var col = System.Windows.Media.Color.FromArgb(100, 0, 0, 0);
-            var brush = new System.Windows.Media.SolidColorBrush(col);
-
             var root = new ItemsControl();
 
             // ココで各種テンプレートなどの設定
