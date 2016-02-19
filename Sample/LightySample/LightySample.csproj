@@ -103,7 +103,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lighty\Lighty.csproj">
+    <ProjectReference Include="..\..\Lighty\Lighty.csproj">
       <Project>{214d801f-8aa8-4242-b8cf-a9471f3c4d8b}</Project>
       <Name>Lighty</Name>
     </ProjectReference>

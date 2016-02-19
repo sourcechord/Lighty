@@ -5,7 +5,9 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lighty", "Lighty\Lighty.csproj", "{214D801F-8AA8-4242-B8CF-A9471F3C4D8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightySample", "LightySample\LightySample.csproj", "{6F5B901F-E249-45BA-ACE3-433BEE31D618}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{F2CE2272-D9F9-4673-B011-3B97D7E7F34A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightySample", "Sample\LightySample\LightySample.csproj", "{6F5B901F-E249-45BA-ACE3-433BEE31D618}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6F5B901F-E249-45BA-ACE3-433BEE31D618} = {F2CE2272-D9F9-4673-B011-3B97D7E7F34A}
 	EndGlobalSection
 EndGlobal
