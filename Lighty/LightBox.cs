@@ -12,12 +12,22 @@ namespace SourceChord.Lighty
 {
     public class LightBox
     {
+        /// <summary>
+        /// LightBoxをモードレス表示します。
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="content"></param>
         public static void Show(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
             adorner.AddDialog(content);
         }
 
+        /// <summary>
+        /// LightBoxをモーダル表示します。
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="content"></param>
         public static void ShowDialog(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
@@ -52,19 +62,9 @@ namespace SourceChord.Lighty
                 var adorner = new LightBoxAdorner(target, element);
 
                 // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
-                adorner.AllDialogClosed += (s, e) => { ClearAdorner(layer, adorner); };
+                adorner.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
                 layer.Add(adorner);
                 return adorner;
-            }
-        }
-
-
-        private static void ClearAdorner(AdornerLayer layer, LightBoxAdorner adorner)
-        {
-            // null条件演算子でいいかも。
-            if (layer != null && adorner != null)
-            {
-                layer.Remove(adorner);
             }
         }
 

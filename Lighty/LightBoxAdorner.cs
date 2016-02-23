@@ -49,6 +49,10 @@ namespace SourceChord.Lighty
             this._root = root;
         }
 
+        /// <summary>
+        /// 引数で渡されたFrameworkElementを、表示中のダイアログ項目に追加します。
+        /// </summary>
+        /// <param name="dialog"></param>
         public void AddDialog(FrameworkElement dialog)
         {
             this._root.Items.Add(dialog);
