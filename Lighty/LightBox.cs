@@ -24,6 +24,18 @@ namespace SourceChord.Lighty
         }
 
         /// <summary>
+        /// LightBoxを非同期でモードレス表示します。
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static async Task ShowAsync(UIElement owner, FrameworkElement content)
+        {
+            var adorner = GetAdorner(owner);
+            await adorner.ShowDialog(content);
+        }
+
+        /// <summary>
         /// LightBoxをモーダル表示します。
         /// </summary>
         /// <param name="owner"></param>

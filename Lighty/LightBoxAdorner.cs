@@ -21,6 +21,8 @@ namespace SourceChord.Lighty
 
         public EventHandler AllDialogClosed;
 
+        private Action<FrameworkElement> _closedDelegate;
+
         static LightBoxAdorner()
         {
             defaultResource = new ResourceDictionary();
@@ -47,6 +49,26 @@ namespace SourceChord.Lighty
             this.AddVisualChild(root);
 
             this._root = root;
+        }
+
+        public async Task<bool> ShowDialog(FrameworkElement dialog)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            var closedHandler = new Action<FrameworkElement>((d) => { });
+            closedHandler = new Action<FrameworkElement>((d) =>
+            {
+                if (d == dialog)
+                {
+                    tcs.SetResult(true);
+                    this._closedDelegate -= closedHandler;
+                }
+            });
+            this._closedDelegate += closedHandler;
+
+            this.AddDialog(dialog);
+
+            return await tcs.Task;
         }
 
         /// <summary>
@@ -77,6 +99,7 @@ namespace SourceChord.Lighty
         public void RemoveDialog(FrameworkElement dialog)
         {
             this._root.Items.Remove(dialog);
+            this._closedDelegate?.Invoke(dialog);
 
             if (this._root.Items.Count == 0)
             {
