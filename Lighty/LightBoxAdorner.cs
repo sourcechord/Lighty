@@ -16,7 +16,6 @@ namespace SourceChord.Lighty
     /// </summary>
     public class LightBoxAdorner : Adorner
     {
-        private static readonly ResourceDictionary defaultResource;
         private LightBoxItemsControl _root;
 
         public EventHandler AllDialogClosed;
@@ -25,8 +24,6 @@ namespace SourceChord.Lighty
 
         static LightBoxAdorner()
         {
-            defaultResource = new ResourceDictionary();
-            defaultResource.Source = new Uri("/Lighty;component/Styles.xaml", UriKind.Relative);
         }
 
         public LightBoxAdorner(UIElement adornedElement, UIElement element) : base(adornedElement)
@@ -35,10 +32,16 @@ namespace SourceChord.Lighty
 
             // ココで各種テンプレートなどの設定
             var template = LightBox.GetTemplate(element);
-            root.Template = template ?? defaultResource["defaultTemplate"] as ControlTemplate;
+            if (template != null)
+            {
+                root.Template = template;
+            }
 
             var itemsPanel = LightBox.GetItemsPanel(element);
-            root.ItemsPanel = itemsPanel ?? defaultResource["defaultPanel"] as ItemsPanelTemplate;
+            if (itemsPanel != null)
+            {
+                root.ItemsPanel = itemsPanel;
+            }
 
             var itemContainerStyle = LightBox.GetItemContainerStyle(element);
             if (itemContainerStyle != null)
@@ -132,21 +135,6 @@ namespace SourceChord.Lighty
         {
             this._root.Arrange(new Rect(new Point(0, 0), finalSize));
             return new Size(this._root.ActualWidth, this._root.ActualHeight);
-        }
-    }
-
-    class LightBoxItemsControl : ItemsControl
-    {
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            //return base.GetContainerForItemOverride();
-            return new ContentControl();
-        }
-
-        protected override bool IsItemItsOwnContainerOverride(object item)
-        {
-            //return base.IsItemItsOwnContainerOverride(item);
-            return false;
         }
     }
 }

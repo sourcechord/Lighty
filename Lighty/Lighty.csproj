@@ -52,6 +52,7 @@
     <Compile Include="LightBox.cs" />
     <Compile Include="LightBoxAdorner.cs" />
     <Compile Include="LightBoxExtensions.cs" />
+    <Compile Include="LightBoxItemsControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -90,6 +91,10 @@
     <Page Include="Styles\Default.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
