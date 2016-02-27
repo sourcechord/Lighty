@@ -53,6 +53,17 @@ namespace SourceChord.Lighty
         }
 
 
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            //return base.GetContainerForItemOverride();
+            return new ContentControl();
+        }
+
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            //return base.IsItemItsOwnContainerOverride(item);
+            return false;
+        }
 
         /// <summary>
         /// LightBoxをモードレス表示します。
