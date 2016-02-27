@@ -5,13 +5,55 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace SourceChord.Lighty
 {
-    public class LightBox
+    /// <summary>
+    /// このカスタム コントロールを XAML ファイルで使用するには、手順 1a または 1b の後、手順 2 に従います。
+    ///
+    /// 手順 1a) 現在のプロジェクトに存在する XAML ファイルでこのカスタム コントロールを使用する場合
+    /// この XmlNamespace 属性を使用場所であるマークアップ ファイルのルート要素に
+    /// 追加します:
+    ///
+    ///     xmlns:MyNamespace="clr-namespace:SourceChord.Lighty"
+    ///
+    ///
+    /// 手順 1b) 異なるプロジェクトに存在する XAML ファイルでこのカスタム コントロールを使用する場合
+    /// この XmlNamespace 属性を使用場所であるマークアップ ファイルのルート要素に
+    /// 追加します:
+    ///
+    ///     xmlns:MyNamespace="clr-namespace:SourceChord.Lighty;assembly=SourceChord.Lighty"
+    ///
+    /// また、XAML ファイルのあるプロジェクトからこのプロジェクトへのプロジェクト参照を追加し、
+    /// リビルドして、コンパイル エラーを防ぐ必要があります:
+    ///
+    ///     ソリューション エクスプローラーで対象のプロジェクトを右クリックし、
+    ///     [参照の追加] の [プロジェクト] を選択してから、このプロジェクトを参照し、選択します。
+    ///
+    ///
+    /// 手順 2)
+    /// コントロールを XAML ファイルで使用します。
+    ///
+    ///     <MyNamespace:LightBox/>
+    ///
+    /// </summary>
+    public class LightBox : ItemsControl
     {
+        static LightBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LightBox), new FrameworkPropertyMetadata(typeof(LightBox)));
+        }
+
+
+
         /// <summary>
         /// LightBoxをモードレス表示します。
         /// </summary>
@@ -79,48 +121,5 @@ namespace SourceChord.Lighty
                 return adorner;
             }
         }
-
-
-        #region 色々と添付プロパティの定義
-
-        public static ControlTemplate GetTemplate(DependencyObject obj)
-        {
-            return (ControlTemplate)obj.GetValue(TemplateProperty);
-        }
-        public static void SetTemplate(DependencyObject obj, ControlTemplate value)
-        {
-            obj.SetValue(TemplateProperty, value);
-        }
-        // Using a DependencyProperty as the backing store for Template.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TemplateProperty =
-            DependencyProperty.RegisterAttached("Template", typeof(ControlTemplate), typeof(LightBox), new PropertyMetadata(null));
-
-
-        public static ItemsPanelTemplate GetItemsPanel(DependencyObject obj)
-        {
-            return (ItemsPanelTemplate)obj.GetValue(ItemsPanelProperty);
-        }
-        public static void SetItemsPanel(DependencyObject obj, ItemsPanelTemplate value)
-        {
-            obj.SetValue(ItemsPanelProperty, value);
-        }
-        // Using a DependencyProperty as the backing store for ItemsPanel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemsPanelProperty =
-            DependencyProperty.RegisterAttached("ItemsPanel", typeof(ItemsPanelTemplate), typeof(LightBox), new PropertyMetadata(null));
-
-
-        public static Style GetItemContainerStyle(DependencyObject obj)
-        {
-            return (Style)obj.GetValue(ItemContainerStyleProperty);
-        }
-        public static void SetItemContainerStyle(DependencyObject obj, Style value)
-        {
-            obj.SetValue(ItemContainerStyleProperty, value);
-        }
-        // Using a DependencyProperty as the backing store for ItemContainerStyle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemContainerStyleProperty =
-            DependencyProperty.RegisterAttached("ItemContainerStyle", typeof(Style), typeof(LightBox), new PropertyMetadata(null));
-
-        #endregion
     }
 }

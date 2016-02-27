@@ -16,7 +16,7 @@ namespace SourceChord.Lighty
     /// </summary>
     public class LightBoxAdorner : Adorner
     {
-        private LightBoxItemsControl _root;
+        private LightBox _root;
 
         public EventHandler AllDialogClosed;
 
@@ -28,27 +28,7 @@ namespace SourceChord.Lighty
 
         public LightBoxAdorner(UIElement adornedElement, UIElement element) : base(adornedElement)
         {
-            var root = new LightBoxItemsControl();
-
-            // ココで各種テンプレートなどの設定
-            var template = LightBox.GetTemplate(element);
-            if (template != null)
-            {
-                root.Template = template;
-            }
-
-            var itemsPanel = LightBox.GetItemsPanel(element);
-            if (itemsPanel != null)
-            {
-                root.ItemsPanel = itemsPanel;
-            }
-
-            var itemContainerStyle = LightBox.GetItemContainerStyle(element);
-            if (itemContainerStyle != null)
-            {
-                root.ItemContainerStyle = itemContainerStyle;
-            }
-
+            var root = new LightBox();
             this.AddVisualChild(root);
 
             this._root = root;

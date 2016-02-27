@@ -49,10 +49,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LightBox.cs" />
     <Compile Include="LightBoxAdorner.cs" />
     <Compile Include="LightBoxExtensions.cs" />
-    <Compile Include="LightBoxItemsControl.cs" />
+    <Compile Include="LightBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

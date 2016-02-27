@@ -6,7 +6,7 @@
         <ResourceDictionary Source="pack://application:,,,/Lighty;component/Styles/Default.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type local:LightBoxItemsControl}">
+    <Style TargetType="{x:Type local:LightBox}">
         <Setter Property="Template" Value="{StaticResource defaultTemplate}" />
         <Setter Property="ItemsPanel" Value="{StaticResource defaultPanel}" />
     </Style>
