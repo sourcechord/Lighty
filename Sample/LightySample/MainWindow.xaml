@@ -2,16 +2,66 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LightySample"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wb="clr-namespace:SourceChord.Lighty;assembly=Lighty"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button Margin="50"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Click="button_Click"
-                Content="Show LightBox" />
+        Title="MainWindow"
+        Width="525"
+        Height="350"
+        MinWidth="400"
+        MinHeight="300"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="{x:Type wb:LightBox}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource closableContainerStyle}" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Basic Usage" />
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Width="100"
+                        Click="OnClickShowButton"
+                        Content="Show" />
+                <Button Margin="5" Width="100"
+                        Click="OnClickShowDialogButton"
+                        Content="ShowDialog" />
+                <Button Margin="5" Width="100"
+                        Click="OnClickShowAsyncButton"
+                        Content="ShowAsync" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Width="100"
+                        Click="OnClickShowUserControl"
+                        Content="Show UserControl" />
+                <Button Margin="5" Width="100"
+                        Click="OnClickShowImage"
+                        Content="Show Image" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <!--<Button Margin="5" Width="100"
+                        Click="OnClickShowMultiple"
+                        Content="Show into Grid" />
+                <Button Margin="5"
+                        Click="OnClickShowMultiple"
+                        Content="Show multiple lightbox" />-->
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Builtin Styles" />
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Custom Styles" />
+        </StackPanel>
     </Grid>
 </Window>
