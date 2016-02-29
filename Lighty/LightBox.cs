@@ -107,7 +107,8 @@ namespace SourceChord.Lighty
         private static LightBoxAdorner GetAdorner(UIElement element)
         {
             // Window系のクラスだったら、Contentプロパティを利用。それ以外の場合はそのまま利用。
-            var target = (element as Window)?.Content as UIElement ?? element;
+            var win = element as Window;
+            var target = win?.Content as UIElement ?? element;
 
             if (element == null) return null;
             var layer = AdornerLayer.GetAdornerLayer(target);
@@ -125,6 +126,14 @@ namespace SourceChord.Lighty
             {
                 // ダイアログ用のAdornerが存在してないので、新規に作って設定して返す。
                 var adorner = new LightBoxAdorner(target, element);
+
+                // Windowに対してAdornerを設定していた場合は、Content要素のMarginを打ち消すためのマージン設定を行う。
+                if (win != null)
+                {
+                    var content = win.Content as FrameworkElement;
+                    var margin = content.Margin;
+                    adorner.Margin = new Thickness(-margin.Left, -margin.Top, margin.Right, margin.Bottom);
+                }
 
                 // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
                 adorner.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
