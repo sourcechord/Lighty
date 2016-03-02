@@ -14,6 +14,8 @@
     <Window.Resources>
         <Style TargetType="{x:Type wb:LightBox}">
             <Setter Property="ItemContainerStyle" Value="{StaticResource closableContainerStyle}" />
+            <Setter Property="InitializeStoryboard" Value="{StaticResource fadeinAnimation}" />
+            <Setter Property="DisposeStoryboard" Value="{StaticResource fadeoutAnimation}" />
         </Style>
     </Window.Resources>
     <Grid Margin="10">

@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Storyboard x:Key="fadeinAnimation">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1.0" Duration="00:00:00.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseInOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+    <Storyboard x:Key="fadeoutAnimation">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0" Duration="00:00:00.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseInOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+</ResourceDictionary>

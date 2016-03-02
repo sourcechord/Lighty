@@ -63,17 +63,17 @@ namespace SourceChord.Lighty
             this._root.Items.Add(dialog);
 
             // 追加したダイアログに対して、ApplicationCommands.Closeのコマンドに対するハンドラを設定。
-            dialog.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, (s, e) =>
+            dialog.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, async (s, e) =>
             {
-                this.RemoveDialog(dialog);
+                await this.RemoveDialogAsync(dialog);
             }));
 
             // ItemsControlにもApplicationCommands.Closeのコマンドに対するハンドラを設定。
             // (ItemsContainerからもCloseコマンドを送って閉じられるようにするため。)
             var parent = dialog.Parent as FrameworkElement;
-            parent.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, (s, e) =>
+            parent.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, async (s, e) =>
             {
-                this.RemoveDialog(e.Parameter as FrameworkElement);
+                await this.RemoveDialogAsync(e.Parameter as FrameworkElement);
             }));
 
             this.InvalidateVisual();
@@ -86,6 +86,19 @@ namespace SourceChord.Lighty
 
             if (this._root.Items.Count == 0)
             {
+                // このAdornerを消去するように依頼するイベントを発行する。
+                AllDialogClosed?.Invoke(this, null);
+            }
+        }
+
+        public async Task RemoveDialogAsync(FrameworkElement dialog)
+        {
+            this._root.Items.Remove(dialog);
+            this._closedDelegate?.Invoke(dialog);
+
+            if (this._root.Items.Count == 0)
+            {
+                await this._root.Closing();
                 // このAdornerを消去するように依頼するイベントを発行する。
                 AllDialogClosed?.Invoke(this, null);
             }

@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -141,5 +142,85 @@ namespace SourceChord.Lighty
                 return adorner;
             }
         }
+
+
+
+        #region アニメーション関係のStoryboardを実行するための各種メソッド
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            var animation = this.InitializeStoryboard;
+            if (animation != null) { animation.Begin(this); }
+        }
+
+        public async Task<bool> Closing()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            if (this.DisposeStoryboard != null)
+            {
+                var animation = this.DisposeStoryboard.Clone();
+                animation.Completed += (s, e) =>
+                {
+                    tcs.SetResult(true);
+                };
+                animation.Freeze();
+                animation.Begin(this);
+            }
+            else
+            {
+                tcs.SetResult(false);
+            }
+
+            return await tcs.Task;
+        }
+
+        #endregion
+
+        #region アニメーション関係のプロパティ
+
+        public Storyboard OpenStoryboard
+        {
+            get { return (Storyboard)GetValue(OpenStoryboardProperty); }
+            set { SetValue(OpenStoryboardProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for OpenStoryboard.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OpenStoryboardProperty =
+            DependencyProperty.Register("OpenStoryboard", typeof(Storyboard), typeof(LightBox), new PropertyMetadata(null));
+
+
+        public Storyboard CloseStoryboard
+        {
+            get { return (Storyboard)GetValue(CloseStoryboardProperty); }
+            set { SetValue(CloseStoryboardProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for CloseStoryboard.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CloseStoryboardProperty =
+            DependencyProperty.Register("CloseStoryboard", typeof(Storyboard), typeof(LightBox), new PropertyMetadata(null));
+
+
+        public Storyboard InitializeStoryboard
+        {
+            get { return (Storyboard)GetValue(InitializeStoryboardProperty); }
+            set { SetValue(InitializeStoryboardProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for InitializeStoryboard.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InitializeStoryboardProperty =
+            DependencyProperty.Register("InitializeStoryboard", typeof(Storyboard), typeof(LightBox), new PropertyMetadata(null));
+
+
+        public Storyboard DisposeStoryboard
+        {
+            get { return (Storyboard)GetValue(DisposeStoryboardProperty); }
+            set { SetValue(DisposeStoryboardProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for DisposeStoryboard.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DisposeStoryboardProperty =
+            DependencyProperty.Register("DisposeStoryboard", typeof(Storyboard), typeof(LightBox), new PropertyMetadata(null));
+
+
+
+        #endregion
     }
 }

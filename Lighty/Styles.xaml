@@ -4,5 +4,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Styles/Default.xaml" />
         <ResourceDictionary Source="Styles/Basic.xaml" />
+        <ResourceDictionary Source="Styles/Animation.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
