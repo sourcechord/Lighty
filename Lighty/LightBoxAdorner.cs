@@ -93,6 +93,7 @@ namespace SourceChord.Lighty
 
         public async Task RemoveDialogAsync(FrameworkElement dialog)
         {
+            await this._root.ClosingDialog(dialog);
             this._root.Items.Remove(dialog);
             this._closedDelegate?.Invoke(dialog);
 

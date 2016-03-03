@@ -13,9 +13,12 @@
         mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="{x:Type wb:LightBox}">
+            <Setter Property="ItemsPanel" Value="{StaticResource horizontalPanel}" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource closableContainerStyle}" />
             <Setter Property="InitializeStoryboard" Value="{StaticResource fadeinAnimation}" />
             <Setter Property="DisposeStoryboard" Value="{StaticResource fadeoutAnimation}" />
+            <Setter Property="OpenStoryboard" Value="{StaticResource fadeinAnimation}" />
+            <Setter Property="CloseStoryboard" Value="{StaticResource fadeoutAnimation}" />
         </Style>
     </Window.Resources>
     <Grid Margin="10">
@@ -48,12 +51,12 @@
                         Content="Show Image" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <!--<Button Margin="5" Width="100"
+                <Button Margin="5" Width="100"
                         Click="OnClickShowMultiple"
                         Content="Show into Grid" />
                 <Button Margin="5"
                         Click="OnClickShowMultiple"
-                        Content="Show multiple lightbox" />-->
+                        Content="Show multiple lightbox" />
             </StackPanel>
         </StackPanel>
 

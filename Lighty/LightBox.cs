@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -154,6 +155,23 @@ namespace SourceChord.Lighty
             if (animation != null) { animation.Begin(this); }
         }
 
+        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnItemsChanged(e);
+
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                var animation = this.OpenStoryboard;
+                if (animation != null)
+                {
+                    foreach(FrameworkElement item in e.NewItems)
+                    {
+                        animation.Begin(item);
+                    }
+                }
+            }
+        }
+
         public async Task<bool> Closing()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -167,6 +185,28 @@ namespace SourceChord.Lighty
                 };
                 animation.Freeze();
                 animation.Begin(this);
+            }
+            else
+            {
+                tcs.SetResult(false);
+            }
+
+            return await tcs.Task;
+        }
+
+        public async Task<bool> ClosingDialog(FrameworkElement item)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            if (this.CloseStoryboard != null)
+            {
+                var animation = this.CloseStoryboard.Clone();
+                animation.Completed += (s, e) =>
+                {
+                    tcs.SetResult(true);
+                };
+                animation.Freeze();
+                animation.Begin(item);
             }
             else
             {
