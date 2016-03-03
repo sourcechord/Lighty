@@ -166,7 +166,14 @@ namespace SourceChord.Lighty
                 {
                     foreach(FrameworkElement item in e.NewItems)
                     {
-                        animation.Begin(item);
+                        item.ApplyTemplate();
+
+                        item.Loaded += (sender, args) =>
+                        {
+                            var container = this.ContainerFromElement(item) as FrameworkElement;
+                            animation.Begin(container);
+                        };
+                        
                     }
                 }
             }
@@ -200,13 +207,14 @@ namespace SourceChord.Lighty
 
             if (this.CloseStoryboard != null)
             {
+                var container = this.ContainerFromElement(item) as FrameworkElement;
                 var animation = this.CloseStoryboard.Clone();
                 animation.Completed += (s, e) =>
                 {
                     tcs.SetResult(true);
                 };
                 animation.Freeze();
-                animation.Begin(item);
+                animation.Begin(container);
             }
             else
             {
