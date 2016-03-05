@@ -48,7 +48,6 @@ namespace LightySample
         {
             LightBox.Show(this, new SampleDialog());
 
-            MessageBox.Show("Hello.");
             await Task.Delay(1000);
             LightBox.Show(this, new SampleDialog());
 

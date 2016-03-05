@@ -15,10 +15,10 @@
         <Style TargetType="{x:Type wb:LightBox}">
             <Setter Property="ItemsPanel" Value="{StaticResource horizontalPanel}" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource closableContainerStyle}" />
-            <Setter Property="InitializeStoryboard" Value="{StaticResource fadeinAnimation}" />
-            <Setter Property="DisposeStoryboard" Value="{StaticResource fadeoutAnimation}" />
-            <Setter Property="OpenStoryboard" Value="{StaticResource fadeinAnimation}" />
-            <Setter Property="CloseStoryboard" Value="{StaticResource fadeoutAnimation}" />
+            <Setter Property="InitializeStoryboard" Value="{StaticResource zoominAnimation}" />
+            <Setter Property="DisposeStoryboard" Value="{StaticResource zoomoutAnimation}" />
+            <Setter Property="OpenStoryboard" Value="{StaticResource zoominAnimation}" />
+            <Setter Property="CloseStoryboard" Value="{StaticResource zoomoutAnimation}" />
         </Style>
     </Window.Resources>
     <Grid Margin="10">

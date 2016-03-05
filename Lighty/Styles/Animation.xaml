@@ -14,4 +14,32 @@
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
     </Storyboard>
+    <Storyboard x:Key="zoominAnimation">
+        <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0" To="1.0" Duration="00:00:00.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseInOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="0" To="1.0" Duration="00:00:00.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseInOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        <!-- ↓中心点の変更をする場合 -->
+        <!--<PointAnimation Storyboard.TargetProperty="RenderTransformOrigin" To="0,0" Duration="00:00:00" />-->
+    </Storyboard>
+    <Storyboard x:Key="zoomoutAnimation">
+        <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1.0" To="0" Duration="00:00:00.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseInOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" From="1.0" To="0" Duration="00:00:00.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseInOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+        <!-- ↓中心点の変更をする場合 -->
+        <!--<PointAnimation Storyboard.TargetProperty="RenderTransformOrigin" To="0,0" Duration="00:00:00" />-->
+    </Storyboard>
 </ResourceDictionary>

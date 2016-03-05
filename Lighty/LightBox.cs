@@ -171,6 +171,15 @@ namespace SourceChord.Lighty
                         item.Loaded += (sender, args) =>
                         {
                             var container = this.ContainerFromElement(item) as FrameworkElement;
+                            
+                            var transform = new TransformGroup();
+                            transform.Children.Add(new ScaleTransform());
+                            transform.Children.Add(new SkewTransform());
+                            transform.Children.Add(new RotateTransform());
+                            transform.Children.Add(new TranslateTransform());
+                            container.RenderTransform = transform;
+                            container.RenderTransformOrigin = new Point(0.5, 0.5);
+
                             animation.Begin(container);
                         };
                         

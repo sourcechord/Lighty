@@ -9,5 +9,16 @@
     <Style TargetType="{x:Type local:LightBox}">
         <Setter Property="Template" Value="{StaticResource defaultTemplate}" />
         <Setter Property="ItemsPanel" Value="{StaticResource defaultPanel}" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
     </Style>
 </ResourceDictionary>
