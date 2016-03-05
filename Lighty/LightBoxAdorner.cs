@@ -17,10 +17,9 @@ namespace SourceChord.Lighty
     public class LightBoxAdorner : Adorner
     {
         private LightBox _root;
+        private Action<FrameworkElement> _closedDelegate;
 
         public EventHandler AllDialogClosed;
-
-        private Action<FrameworkElement> _closedDelegate;
 
         static LightBoxAdorner()
         {
@@ -79,19 +78,7 @@ namespace SourceChord.Lighty
             this.InvalidateVisual();
         }
 
-        public void RemoveDialog(FrameworkElement dialog)
-        {
-            this._root.Items.Remove(dialog);
-            this._closedDelegate?.Invoke(dialog);
-
-            if (this._root.Items.Count == 0)
-            {
-                // このAdornerを消去するように依頼するイベントを発行する。
-                AllDialogClosed?.Invoke(this, null);
-            }
-        }
-
-        public async Task RemoveDialogAsync(FrameworkElement dialog)
+        protected async Task RemoveDialogAsync(FrameworkElement dialog)
         {
             await this._root.ClosingDialog(dialog);
             this._root.Items.Remove(dialog);

@@ -152,38 +152,33 @@ namespace SourceChord.Lighty
         {
             base.OnApplyTemplate();
             var animation = this.InitializeStoryboard;
-            if (animation != null) { animation.Begin(this); }
+            animation?.Begin(this);
         }
 
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnItemsChanged(e);
 
-            if (e.Action == NotifyCollectionChangedAction.Add)
+            var animation = this.OpenStoryboard;
+            if (e.Action == NotifyCollectionChangedAction.Add &&
+                animation != null)
             {
-                var animation = this.OpenStoryboard;
-                if (animation != null)
+                foreach (FrameworkElement item in e.NewItems)
                 {
-                    foreach(FrameworkElement item in e.NewItems)
+                    item.Loaded += (sender, args) =>
                     {
-                        item.ApplyTemplate();
+                        var container = this.ContainerFromElement(item) as FrameworkElement;
 
-                        item.Loaded += (sender, args) =>
-                        {
-                            var container = this.ContainerFromElement(item) as FrameworkElement;
-                            
-                            var transform = new TransformGroup();
-                            transform.Children.Add(new ScaleTransform());
-                            transform.Children.Add(new SkewTransform());
-                            transform.Children.Add(new RotateTransform());
-                            transform.Children.Add(new TranslateTransform());
-                            container.RenderTransform = transform;
-                            container.RenderTransformOrigin = new Point(0.5, 0.5);
+                        var transform = new TransformGroup();
+                        transform.Children.Add(new ScaleTransform());
+                        transform.Children.Add(new SkewTransform());
+                        transform.Children.Add(new RotateTransform());
+                        transform.Children.Add(new TranslateTransform());
+                        container.RenderTransform = transform;
+                        container.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                            animation.Begin(container);
-                        };
-                        
-                    }
+                        animation.Begin(container);
+                    };
                 }
             }
         }
@@ -275,8 +270,6 @@ namespace SourceChord.Lighty
         // Using a DependencyProperty as the backing store for DisposeStoryboard.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DisposeStoryboardProperty =
             DependencyProperty.Register("DisposeStoryboard", typeof(Storyboard), typeof(LightBox), new PropertyMetadata(null));
-
-
 
         #endregion
     }
