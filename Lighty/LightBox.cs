@@ -155,7 +155,7 @@ namespace SourceChord.Lighty
         /// 引数で渡されたFrameworkElementを、表示中のダイアログ項目に追加します。
         /// </summary>
         /// <param name="dialog"></param>
-        public void AddDialog(FrameworkElement dialog)
+        protected void AddDialog(FrameworkElement dialog)
         {
             this.Items.Add(dialog);
 
@@ -176,7 +176,7 @@ namespace SourceChord.Lighty
             this.InvalidateVisual();
         }
 
-        public async Task<bool> AddDialogAsync(FrameworkElement dialog)
+        protected async Task<bool> AddDialogAsync(FrameworkElement dialog)
         {
             var tcs = new TaskCompletionSource<bool>();
 
@@ -250,19 +250,18 @@ namespace SourceChord.Lighty
             }
         }
 
-        public async Task<bool> Closing()
+        protected async Task<bool> Closing()
         {
             return await this.DisposeStoryboard.BeginAsync(this);
         }
 
-        public async Task<bool> ClosingDialog(FrameworkElement item)
+        protected async Task<bool> ClosingDialog(FrameworkElement item)
         {
             var container = this.ContainerFromElement(item) as FrameworkElement;
             return await this.CloseStoryboard.BeginAsync(container); ;
         }
 
         #endregion
-
 
         #region アニメーション関係のプロパティ
 
