@@ -33,25 +33,6 @@ namespace SourceChord.Lighty
             this._root = root;
         }
 
-        public async Task<bool> ShowDialog(FrameworkElement dialog)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-
-            var closedHandler = new Action<FrameworkElement>((d) => { });
-            closedHandler = new Action<FrameworkElement>((d) =>
-            {
-                if (d == dialog)
-                {
-                    tcs.SetResult(true);
-                    this._closedDelegate -= closedHandler;
-                }
-            });
-            this._closedDelegate += closedHandler;
-
-            this.AddDialog(dialog);
-
-            return await tcs.Task;
-        }
 
         /// <summary>
         /// 引数で渡されたFrameworkElementを、表示中のダイアログ項目に追加します。
@@ -76,6 +57,26 @@ namespace SourceChord.Lighty
             }));
 
             this.InvalidateVisual();
+        }
+
+        public async Task<bool> AddDialogAsync(FrameworkElement dialog)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            var closedHandler = new Action<FrameworkElement>((d) => { });
+            closedHandler = new Action<FrameworkElement>((d) =>
+            {
+                if (d == dialog)
+                {
+                    tcs.SetResult(true);
+                    this._closedDelegate -= closedHandler;
+                }
+            });
+            this._closedDelegate += closedHandler;
+
+            this.AddDialog(dialog);
+
+            return await tcs.Task;
         }
 
         protected async Task RemoveDialogAsync(FrameworkElement dialog)

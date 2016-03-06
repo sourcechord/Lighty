@@ -86,7 +86,7 @@ namespace SourceChord.Lighty
         public static async Task ShowAsync(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
-            await adorner.ShowDialog(content);
+            await adorner.AddDialogAsync(content);
         }
 
         /// <summary>
