@@ -54,6 +54,8 @@ namespace SourceChord.Lighty
 
         public static EventHandler AllDialogClosed;
 
+        public EventHandler CompleteInitializeLightBox;
+
         static LightBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LightBox), new FrameworkPropertyMetadata(typeof(LightBox)));
@@ -78,6 +80,7 @@ namespace SourceChord.Lighty
         public static void Show(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
+            if (adorner == null) { adorner = CreateAdorner(owner); }
             adorner.Root?.AddDialog(content);
         }
 
@@ -90,6 +93,7 @@ namespace SourceChord.Lighty
         public static async Task ShowAsync(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
+            if (adorner == null) { adorner = await CreateAdornerAsync(owner); }
             await adorner.Root?.AddDialogAsync(content);
         }
 
@@ -101,6 +105,7 @@ namespace SourceChord.Lighty
         public static void ShowDialog(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
+            if (adorner == null) { adorner = CreateAdorner(owner); }
 
             var frame = new DispatcherFrame();
             LightBox.AllDialogClosed += (s, e) => { frame.Continue = false; };
@@ -115,7 +120,7 @@ namespace SourceChord.Lighty
             var win = element as Window;
             var target = win?.Content as UIElement ?? element;
 
-            if (element == null) return null;
+            if (target == null) return null;
             var layer = AdornerLayer.GetAdornerLayer(target);
             if (layer == null) return null;
 
@@ -123,32 +128,62 @@ namespace SourceChord.Lighty
                                ?.OfType<LightBoxAdorner>()
                                ?.SingleOrDefault();
 
-            if (current != null)
+            return current;
+        }
+
+        private static LightBoxAdorner CreateAdornerCore(UIElement element, LightBox lightbox)
+        {
+            // Window系のクラスだったら、Contentプロパティを利用。それ以外の場合はそのまま利用。
+            var win = element as Window;
+            var target = win?.Content as UIElement ?? element;
+
+            if (target == null) return null;
+            var layer = AdornerLayer.GetAdornerLayer(target);
+            if (layer == null) return null;
+
+            // ダイアログ用のAdornerが存在してないので、新規に作って設定して返す。
+            var adorner = new LightBoxAdorner(target);
+            adorner.SetRoot(lightbox);
+
+            // Windowに対してAdornerを設定していた場合は、Content要素のMarginを打ち消すためのマージン設定を行う。
+            if (win != null)
             {
-                return current;
+                var content = win.Content as FrameworkElement;
+                var margin = content.Margin;
+                adorner.Margin = new Thickness(-margin.Left, -margin.Top, margin.Right, margin.Bottom);
+            }
+
+            // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
+            LightBox.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
+            layer.Add(adorner);
+            return adorner;
+        }
+
+        protected static LightBoxAdorner CreateAdorner(UIElement element)
+        {
+            return CreateAdornerCore(element, new LightBox());
+        }
+
+        protected static Task<LightBoxAdorner> CreateAdornerAsync(UIElement element)
+        {
+            var lightbox = new LightBox();
+            var tcs = new TaskCompletionSource<LightBoxAdorner>();
+
+            if (lightbox != null)
+            {
+                var adorner = CreateAdornerCore(element, lightbox);
+                lightbox.CompleteInitializeLightBox += (s, e) =>
+                {
+                    tcs.SetResult(adorner);
+                };
             }
             else
             {
-                // ダイアログ用のAdornerが存在してないので、新規に作って設定して返す。
-                var adorner = new LightBoxAdorner(target);
-                adorner.SetRoot(new LightBox());
-
-                // Windowに対してAdornerを設定していた場合は、Content要素のMarginを打ち消すためのマージン設定を行う。
-                if (win != null)
-                {
-                    var content = win.Content as FrameworkElement;
-                    var margin = content.Margin;
-                    adorner.Margin = new Thickness(-margin.Left, -margin.Top, margin.Right, margin.Bottom);
-                }
-
-                // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
-                LightBox.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
-                layer.Add(adorner);
-                return adorner;
+                tcs.SetResult(null);
             }
+
+            return tcs.Task;
         }
-
-
 
         #region ダイアログ表示関係の処理
         /// <summary>
@@ -218,8 +253,14 @@ namespace SourceChord.Lighty
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            this.Opening();
+        }
+
+        public async Task Opening()
+        {
             var animation = this.InitializeStoryboard;
-            animation?.Begin(this);
+            await animation?.BeginAsync(this);
+            this.CompleteInitializeLightBox?.Invoke(this, null);
         }
 
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
