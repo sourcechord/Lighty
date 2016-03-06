@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SourceChord.Lighty.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -57,13 +58,11 @@ namespace SourceChord.Lighty
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            //return base.GetContainerForItemOverride();
             return new ContentControl();
         }
 
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            //return base.IsItemItsOwnContainerOverride(item);
             return false;
         }
 
@@ -145,7 +144,6 @@ namespace SourceChord.Lighty
         }
 
 
-
         #region アニメーション関係のStoryboardを実行するための各種メソッド
 
         public override void OnApplyTemplate()
@@ -185,47 +183,13 @@ namespace SourceChord.Lighty
 
         public async Task<bool> Closing()
         {
-            var tcs = new TaskCompletionSource<bool>();
-
-            if (this.DisposeStoryboard != null)
-            {
-                var animation = this.DisposeStoryboard.Clone();
-                animation.Completed += (s, e) =>
-                {
-                    tcs.SetResult(true);
-                };
-                animation.Freeze();
-                animation.Begin(this);
-            }
-            else
-            {
-                tcs.SetResult(false);
-            }
-
-            return await tcs.Task;
+            return await this.DisposeStoryboard.BeginAsync(this);
         }
 
         public async Task<bool> ClosingDialog(FrameworkElement item)
         {
-            var tcs = new TaskCompletionSource<bool>();
-
-            if (this.CloseStoryboard != null)
-            {
-                var container = this.ContainerFromElement(item) as FrameworkElement;
-                var animation = this.CloseStoryboard.Clone();
-                animation.Completed += (s, e) =>
-                {
-                    tcs.SetResult(true);
-                };
-                animation.Freeze();
-                animation.Begin(container);
-            }
-            else
-            {
-                tcs.SetResult(false);
-            }
-
-            return await tcs.Task;
+            var container = this.ContainerFromElement(item) as FrameworkElement;
+            return await this.CloseStoryboard.BeginAsync(container); ;
         }
 
         #endregion

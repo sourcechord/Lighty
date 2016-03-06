@@ -49,6 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\StoryboardExtensions.cs" />
     <Compile Include="LightBoxAdorner.cs" />
     <Compile Include="LightBoxExtensions.cs" />
     <Compile Include="LightBox.cs" />
