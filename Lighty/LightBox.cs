@@ -50,6 +50,10 @@ namespace SourceChord.Lighty
     /// </summary>
     public class LightBox : ItemsControl
     {
+        private Action<FrameworkElement> _closedDelegate;
+
+        public static EventHandler AllDialogClosed;
+
         static LightBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LightBox), new FrameworkPropertyMetadata(typeof(LightBox)));
@@ -74,7 +78,7 @@ namespace SourceChord.Lighty
         public static void Show(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
-            adorner.AddDialog(content);
+            adorner.Root?.AddDialog(content);
         }
 
         /// <summary>
@@ -86,7 +90,7 @@ namespace SourceChord.Lighty
         public static async Task ShowAsync(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
-            await adorner.AddDialogAsync(content);
+            await adorner.Root?.AddDialogAsync(content);
         }
 
         /// <summary>
@@ -99,8 +103,8 @@ namespace SourceChord.Lighty
             var adorner = GetAdorner(owner);
 
             var frame = new DispatcherFrame();
-            adorner.AllDialogClosed += (s, e) => { frame.Continue = false; };
-            adorner.AddDialog(content);
+            LightBox.AllDialogClosed += (s, e) => { frame.Continue = false; };
+            adorner.Root?.AddDialog(content);
 
             Dispatcher.PushFrame(frame);
         }
@@ -126,7 +130,8 @@ namespace SourceChord.Lighty
             else
             {
                 // ダイアログ用のAdornerが存在してないので、新規に作って設定して返す。
-                var adorner = new LightBoxAdorner(target, element);
+                var adorner = new LightBoxAdorner(target);
+                adorner.SetRoot(new LightBox());
 
                 // Windowに対してAdornerを設定していた場合は、Content要素のMarginを打ち消すためのマージン設定を行う。
                 if (win != null)
@@ -137,11 +142,75 @@ namespace SourceChord.Lighty
                 }
 
                 // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
-                adorner.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
+                LightBox.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
                 layer.Add(adorner);
                 return adorner;
             }
         }
+
+
+
+        #region ダイアログ表示関係の処理
+        /// <summary>
+        /// 引数で渡されたFrameworkElementを、表示中のダイアログ項目に追加します。
+        /// </summary>
+        /// <param name="dialog"></param>
+        public void AddDialog(FrameworkElement dialog)
+        {
+            this.Items.Add(dialog);
+
+            // 追加したダイアログに対して、ApplicationCommands.Closeのコマンドに対するハンドラを設定。
+            dialog.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, async (s, e) =>
+            {
+                await this.RemoveDialogAsync(dialog);
+            }));
+
+            // ItemsControlにもApplicationCommands.Closeのコマンドに対するハンドラを設定。
+            // (ItemsContainerからもCloseコマンドを送って閉じられるようにするため。)
+            var parent = dialog.Parent as FrameworkElement;
+            parent.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, async (s, e) =>
+            {
+                await this.RemoveDialogAsync(e.Parameter as FrameworkElement);
+            }));
+
+            this.InvalidateVisual();
+        }
+
+        public async Task<bool> AddDialogAsync(FrameworkElement dialog)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            var closedHandler = new Action<FrameworkElement>((d) => { });
+            closedHandler = new Action<FrameworkElement>((d) =>
+            {
+                if (d == dialog)
+                {
+                    tcs.SetResult(true);
+                    this._closedDelegate -= closedHandler;
+                }
+            });
+            this._closedDelegate += closedHandler;
+
+            this.AddDialog(dialog);
+
+            return await tcs.Task;
+        }
+
+        protected async Task RemoveDialogAsync(FrameworkElement dialog)
+        {
+            await this.ClosingDialog(dialog);
+            this.Items.Remove(dialog);
+            this._closedDelegate?.Invoke(dialog);
+
+            if (this.Items.Count == 0)
+            {
+                await this.Closing();
+                // このAdornerを消去するように依頼するイベントを発行する。
+                LightBox.AllDialogClosed?.Invoke(this, null);
+            }
+        }
+
+        #endregion
 
 
         #region アニメーション関係のStoryboardを実行するための各種メソッド
@@ -193,6 +262,7 @@ namespace SourceChord.Lighty
         }
 
         #endregion
+
 
         #region アニメーション関係のプロパティ
 

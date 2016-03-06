@@ -16,107 +16,45 @@ namespace SourceChord.Lighty
     /// </summary>
     public class LightBoxAdorner : Adorner
     {
-        private LightBox _root;
-        private Action<FrameworkElement> _closedDelegate;
-
-        public EventHandler AllDialogClosed;
+        public LightBox Root { get; private set; }
 
         static LightBoxAdorner()
         {
         }
 
-        public LightBoxAdorner(UIElement adornedElement, UIElement element) : base(adornedElement)
+        public LightBoxAdorner(UIElement adornedElement) : base(adornedElement)
+        { }
+
+        public void SetRoot(LightBox root)
         {
-            var root = new LightBox();
             this.AddVisualChild(root);
-
-            this._root = root;
-        }
-
-
-        /// <summary>
-        /// 引数で渡されたFrameworkElementを、表示中のダイアログ項目に追加します。
-        /// </summary>
-        /// <param name="dialog"></param>
-        public void AddDialog(FrameworkElement dialog)
-        {
-            this._root.Items.Add(dialog);
-
-            // 追加したダイアログに対して、ApplicationCommands.Closeのコマンドに対するハンドラを設定。
-            dialog.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, async (s, e) =>
-            {
-                await this.RemoveDialogAsync(dialog);
-            }));
-
-            // ItemsControlにもApplicationCommands.Closeのコマンドに対するハンドラを設定。
-            // (ItemsContainerからもCloseコマンドを送って閉じられるようにするため。)
-            var parent = dialog.Parent as FrameworkElement;
-            parent.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, async (s, e) =>
-            {
-                await this.RemoveDialogAsync(e.Parameter as FrameworkElement);
-            }));
-
-            this.InvalidateVisual();
-        }
-
-        public async Task<bool> AddDialogAsync(FrameworkElement dialog)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-
-            var closedHandler = new Action<FrameworkElement>((d) => { });
-            closedHandler = new Action<FrameworkElement>((d) =>
-            {
-                if (d == dialog)
-                {
-                    tcs.SetResult(true);
-                    this._closedDelegate -= closedHandler;
-                }
-            });
-            this._closedDelegate += closedHandler;
-
-            this.AddDialog(dialog);
-
-            return await tcs.Task;
-        }
-
-        protected async Task RemoveDialogAsync(FrameworkElement dialog)
-        {
-            await this._root.ClosingDialog(dialog);
-            this._root.Items.Remove(dialog);
-            this._closedDelegate?.Invoke(dialog);
-
-            if (this._root.Items.Count == 0)
-            {
-                await this._root.Closing();
-                // このAdornerを消去するように依頼するイベントを発行する。
-                AllDialogClosed?.Invoke(this, null);
-            }
+            this.Root = root;
         }
 
         protected override int VisualChildrenCount
         {
-            get { return this._root == null ? 0 : 1; }
+            get { return this.Root == null ? 0 : 1; }
         }
 
         protected override Visual GetVisualChild(int index)
         {
             if (index != 0) throw new ArgumentOutOfRangeException();
-            return this._root;
+            return this.Root;
         }
 
         protected override Size MeasureOverride(Size constraint)
         {
             // ルートのグリッドはAdornerを付けている要素と同じサイズになるように調整
-            this._root.Width = constraint.Width;
-            this._root.Height = constraint.Height;
-            this._root.Measure(constraint);
-            return this._root.DesiredSize;
+            this.Root.Width = constraint.Width;
+            this.Root.Height = constraint.Height;
+            this.Root.Measure(constraint);
+            return this.Root.DesiredSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            this._root.Arrange(new Rect(new Point(0, 0), finalSize));
-            return new Size(this._root.ActualWidth, this._root.ActualHeight);
+            this.Root.Arrange(new Rect(new Point(0, 0), finalSize));
+            return new Size(this.Root.ActualWidth, this.Root.ActualHeight);
         }
     }
 }
