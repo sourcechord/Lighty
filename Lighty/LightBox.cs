@@ -259,7 +259,7 @@ namespace SourceChord.Lighty
         public async Task Opening()
         {
             var animation = this.InitializeStoryboard;
-            await animation?.BeginAsync(this);
+            await animation.BeginAsync(this);
             this.CompleteInitializeLightBox?.Invoke(this, null);
         }
 
@@ -267,10 +267,9 @@ namespace SourceChord.Lighty
         {
             base.OnItemsChanged(e);
 
-            var animation = this.OpenStoryboard;
-            if (e.Action == NotifyCollectionChangedAction.Add &&
-                animation != null)
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
+                var animation = this.OpenStoryboard;
                 foreach (FrameworkElement item in e.NewItems)
                 {
                     item.Loaded += (sender, args) =>
@@ -285,7 +284,7 @@ namespace SourceChord.Lighty
                         container.RenderTransform = transform;
                         container.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                        animation.Begin(container);
+                        animation?.Begin(container);
                     };
                 }
             }
