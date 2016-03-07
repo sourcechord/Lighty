@@ -275,6 +275,7 @@ namespace SourceChord.Lighty
                     item.Loaded += (sender, args) =>
                     {
                         var container = this.ContainerFromElement(item) as FrameworkElement;
+                        container.Focus();
 
                         var transform = new TransformGroup();
                         transform.Children.Add(new ScaleTransform());
