@@ -105,7 +105,7 @@ namespace SourceChord.Lighty
         public static void ShowDialog(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
-            if (adorner == null) { adorner = CreateAdorner(owner); }
+            if (adorner == null) { adorner = CreateAdornerModal(owner); }
 
             var frame = new DispatcherFrame();
             LightBox.AllDialogClosed += (s, e) => { frame.Continue = false; };
@@ -183,6 +183,22 @@ namespace SourceChord.Lighty
             }
 
             return tcs.Task;
+        }
+
+        protected static LightBoxAdorner CreateAdornerModal(UIElement element)
+        {
+            var lightbox = new LightBox();
+
+            var frame = new DispatcherFrame();
+            var adorner = CreateAdornerCore(element, lightbox);
+            lightbox.CompleteInitializeLightBox += (s, e) =>
+            {
+                frame.Continue = false;
+            };
+
+            Dispatcher.PushFrame(frame);
+
+            return adorner;
         }
 
         #region ダイアログ表示関係の処理
@@ -305,6 +321,28 @@ namespace SourceChord.Lighty
         #endregion
 
         #region アニメーション関係のプロパティ
+
+        public bool IsParallelInitialize
+        {
+            get { return (bool)GetValue(IsParallelInitializeProperty); }
+            set { SetValue(IsParallelInitializeProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for IsParallelInitialize.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsParallelInitializeProperty =
+            DependencyProperty.Register("IsParallelInitialize", typeof(bool), typeof(LightBox), new PropertyMetadata(false));
+
+
+        public bool IsParallelDispose
+        {
+            get { return (bool)GetValue(IsParallelDisposeProperty); }
+            set { SetValue(IsParallelDisposeProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for IsParallelDispose.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsParallelDisposeProperty =
+            DependencyProperty.Register("IsParallelDispose", typeof(bool), typeof(LightBox), new PropertyMetadata(false));
+
+
+
 
         public Storyboard OpenStoryboard
         {
