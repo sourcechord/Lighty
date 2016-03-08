@@ -255,16 +255,25 @@ namespace SourceChord.Lighty
 
         protected async Task RemoveDialogAsync(FrameworkElement dialog)
         {
-            await this.ClosingDialog(dialog);
-            this.Items.Remove(dialog);
-            this._closedDelegate?.Invoke(dialog);
+            var index = this.Items.IndexOf(dialog);
+            var count = this.Items.Count;
 
-            if (this.Items.Count == 0)
+            if (this.IsParallelDispose)
+            {
+                this.ClosingDialog(dialog);
+            }
+            else
+            {
+                await this.ClosingDialog(dialog);
+            }
+            if (index != -1 && count == 1)
             {
                 await this.Closing();
                 // このAdornerを消去するように依頼するイベントを発行する。
                 LightBox.AllDialogClosed?.Invoke(this, null);
             }
+
+            this._closedDelegate?.Invoke(dialog);
         }
 
         #endregion
@@ -321,7 +330,9 @@ namespace SourceChord.Lighty
         protected async Task<bool> ClosingDialog(FrameworkElement item)
         {
             var container = this.ContainerFromElement(item) as FrameworkElement;
-            return await this.CloseStoryboard.BeginAsync(container); ;
+            await this.CloseStoryboard.BeginAsync(container);
+            this.Items.Remove(item);
+            return true;
         }
 
         #endregion
