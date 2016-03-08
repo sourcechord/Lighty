@@ -19,6 +19,8 @@
             <Setter Property="DisposeStoryboard" Value="{StaticResource zoomoutAnimation}" />
             <Setter Property="OpenStoryboard" Value="{StaticResource zoominAnimation}" />
             <Setter Property="CloseStoryboard" Value="{StaticResource zoomoutAnimation}" />
+
+            <Setter Property="IsParallelInitialize" Value="False" />
         </Style>
     </Window.Resources>
     <Grid Margin="10">

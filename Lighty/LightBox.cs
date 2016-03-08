@@ -77,10 +77,10 @@ namespace SourceChord.Lighty
         /// </summary>
         /// <param name="owner"></param>
         /// <param name="content"></param>
-        public static void Show(UIElement owner, FrameworkElement content)
+        public static async void Show(UIElement owner, FrameworkElement content)
         {
             var adorner = GetAdorner(owner);
-            if (adorner == null) { adorner = CreateAdorner(owner); }
+            if (adorner == null) { adorner = await CreateAdornerAsync(owner); }
             adorner.Root?.AddDialog(content);
         }
 
@@ -166,21 +166,24 @@ namespace SourceChord.Lighty
 
         protected static Task<LightBoxAdorner> CreateAdornerAsync(UIElement element)
         {
-            var lightbox = new LightBox();
             var tcs = new TaskCompletionSource<LightBoxAdorner>();
 
-            if (lightbox != null)
+            var lightbox = new LightBox();
+            var adorner = CreateAdornerCore(element, lightbox);
+            lightbox.Loaded += (s, e) =>
             {
-                var adorner = CreateAdornerCore(element, lightbox);
-                lightbox.CompleteInitializeLightBox += (s, e) =>
+                if (lightbox.IsParallelInitialize)
                 {
                     tcs.SetResult(adorner);
-                };
-            }
-            else
-            {
-                tcs.SetResult(null);
-            }
+                }
+                else
+                {
+                    lightbox.CompleteInitializeLightBox += (_s, _e) =>
+                    {
+                        tcs.SetResult(adorner);
+                    };
+                }
+            };
 
             return tcs.Task;
         }
@@ -189,14 +192,17 @@ namespace SourceChord.Lighty
         {
             var lightbox = new LightBox();
 
-            var frame = new DispatcherFrame();
             var adorner = CreateAdornerCore(element, lightbox);
-            lightbox.CompleteInitializeLightBox += (s, e) =>
+            if (!lightbox.IsParallelInitialize)
             {
-                frame.Continue = false;
-            };
+                var frame = new DispatcherFrame();
+                lightbox.CompleteInitializeLightBox += (s, e) =>
+                {
+                    frame.Continue = false;
+                };
 
-            Dispatcher.PushFrame(frame);
+                Dispatcher.PushFrame(frame);
+            }
 
             return adorner;
         }
