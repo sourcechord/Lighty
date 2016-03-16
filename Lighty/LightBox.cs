@@ -172,7 +172,11 @@ namespace SourceChord.Lighty
             var adorner = CreateAdornerCore(element, lightbox);
             lightbox.Loaded += (s, e) =>
             {
-                if (lightbox.IsParallelInitialize)
+                // アニメーションを並列で実行する場合 or 
+                // lightbox背景のアニメーションが無い場合は、
+                // この非同期メソッドは即完了とする
+                if (lightbox.IsParallelInitialize ||
+                    lightbox.InitializeStoryboard == null)
                 {
                     tcs.SetResult(adorner);
                 }
