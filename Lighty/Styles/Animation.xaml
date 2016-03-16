@@ -1,20 +1,20 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Storyboard x:Key="fadeinAnimation">
+    <Storyboard x:Key="FadeInAnimation">
         <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1.0" Duration="00:00:00.5">
             <DoubleAnimation.EasingFunction>
                 <CubicEase EasingMode="EaseInOut" />
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
     </Storyboard>
-    <Storyboard x:Key="fadeoutAnimation">
+    <Storyboard x:Key="FadeOutAnimation">
         <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0" Duration="00:00:00.5">
             <DoubleAnimation.EasingFunction>
                 <CubicEase EasingMode="EaseInOut" />
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
     </Storyboard>
-    <Storyboard x:Key="zoominAnimation">
+    <Storyboard x:Key="ZoomInAnimation">
         <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="0" To="1.0" Duration="00:00:00.5">
             <DoubleAnimation.EasingFunction>
                 <CubicEase EasingMode="EaseInOut" />
@@ -28,7 +28,7 @@
         <!-- ↓中心点の変更をする場合 -->
         <!--<PointAnimation Storyboard.TargetProperty="RenderTransformOrigin" To="0,0" Duration="00:00:00" />-->
     </Storyboard>
-    <Storyboard x:Key="zoomoutAnimation">
+    <Storyboard x:Key="ZoomOutAnimation">
         <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" From="1.0" To="0" Duration="00:00:00.5">
             <DoubleAnimation.EasingFunction>
                 <CubicEase EasingMode="EaseInOut" />

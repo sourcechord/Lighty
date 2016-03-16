@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ControlTemplate x:Key="defaultTemplate">
+    <ControlTemplate x:Key="DefaultTemplate">
         <Grid Background="#88000000">
             <ItemsPresenter />
         </Grid>
     </ControlTemplate>
-    <ItemsPanelTemplate x:Key="defaultPanel">
+    <ItemsPanelTemplate x:Key="DefaultPanel">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </ItemsPanelTemplate>
 </ResourceDictionary>

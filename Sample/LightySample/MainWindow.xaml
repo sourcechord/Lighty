@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:LightySample"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wb="clr-namespace:SourceChord.Lighty;assembly=Lighty"
+        xmlns:lighty="clr-namespace:SourceChord.Lighty;assembly=Lighty"
         Title="MainWindow"
         Width="525"
         Height="350"
@@ -12,13 +12,13 @@
         MinHeight="300"
         mc:Ignorable="d">
     <Window.Resources>
-        <Style TargetType="{x:Type wb:LightBox}">
-            <Setter Property="ItemsPanel" Value="{StaticResource horizontalPanel}" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource closableContainerStyle}" />
-            <Setter Property="InitializeStoryboard" Value="{StaticResource zoominAnimation}" />
-            <Setter Property="DisposeStoryboard" Value="{StaticResource zoomoutAnimation}" />
-            <Setter Property="OpenStoryboard" Value="{StaticResource zoominAnimation}" />
-            <Setter Property="CloseStoryboard" Value="{StaticResource zoomoutAnimation}" />
+        <Style TargetType="{x:Type lighty:LightBox}">
+            <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ClosableContainerStyle}" />
+            <Setter Property="InitializeStoryboard" Value="{StaticResource ZoomInAnimation}" />
+            <Setter Property="DisposeStoryboard" Value="{StaticResource ZoomOutAnimation}" />
+            <Setter Property="OpenStoryboard" Value="{StaticResource ZoomInAnimation}" />
+            <Setter Property="CloseStoryboard" Value="{StaticResource ZoomOutAnimation}" />
 
             <Setter Property="IsParallelInitialize" Value="False" />
             <Setter Property="IsParallelDispose" Value="True" />
