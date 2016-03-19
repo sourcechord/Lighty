@@ -82,6 +82,34 @@
         </Setter>
     </Style>
 
+    <Style x:Key="PhotoCardStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid Background="White" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.Effect>
+                            <DropShadowEffect Opacity="0.8" ShadowDepth="2" BlurRadius="8" />
+                        </Grid.Effect>
+                        <ContentPresenter Content="{Binding}" Margin="10"/>
+                        <StackPanel Grid.Row="1" Margin="0,0,10,5" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="Close" />
+                            <Button DockPanel.Dock="Bottom"
+                                    Style="{StaticResource textButtonStyle}"
+                                    HorizontalAlignment="Right"
+                                    Command="ApplicationCommands.Close" CommandParameter="{Binding}"
+                                    Foreground="Black"
+                                    FontFamily="Marlett" Content="r" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <ControlTemplate x:Key="LightGlassTemplate">
         <Grid Background="White">
