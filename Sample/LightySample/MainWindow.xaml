@@ -13,9 +13,11 @@
         mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="{x:Type lighty:LightBox}">
+            <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
             <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource ClosableContainerStyle}" />
-            <Setter Property="InitializeStoryboard" Value="{StaticResource ZoomInAnimation}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
+            
+            <!--<Setter Property="InitializeStoryboard" Value="{StaticResource ZoomInAnimation}" />-->
             <Setter Property="DisposeStoryboard" Value="{StaticResource ZoomOutAnimation}" />
             <Setter Property="OpenStoryboard" Value="{StaticResource ZoomInAnimation}" />
             <Setter Property="CloseStoryboard" Value="{StaticResource ZoomOutAnimation}" />

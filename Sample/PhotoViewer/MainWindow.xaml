@@ -1,0 +1,77 @@
+﻿<Window x:Class="PhotoViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:PhotoViewer"
+        xmlns:common="clr-namespace:PhotoViewer.Common"
+        xmlns:lighty="clr-namespace:SourceChord.Lighty;assembly=Lighty"
+        Title="Lighty Photo Viewer" Height="350" Width="525">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <ItemsPanelTemplate x:Key="photoPanel">
+            <!--<Grid HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+            <WrapPanel ItemWidth="150" ItemHeight="100"/>
+        </ItemsPanelTemplate>
+
+        <DataTemplate x:Key="photoItemTemplate">
+            <Grid Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="0.8" ShadowDepth="1" BlurRadius="5" />
+                </Grid.Effect>
+                <!--<ContentPresenter Content="{Binding}" Margin="5"/>-->
+                <Image Margin="3">
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding}" DecodePixelWidth="150"/>
+                    </Image.Source>
+                </Image>
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="photoContainerStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <EventSetter Event="MouseDoubleClick" Handler="OnItemDoubleClicked" />
+        </Style>
+        
+        
+        <!-- For Lighty -->
+        <Style TargetType="{x:Type lighty:LightBox}">
+            <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
+
+            <Setter Property="InitializeStoryboard" Value="{StaticResource FadeInAnimation}" />
+            <Setter Property="DisposeStoryboard" Value="{StaticResource FadeOutAnimation}" />
+            <Setter Property="OpenStoryboard" Value="{StaticResource FadeInAnimation}" />
+            <Setter Property="CloseStoryboard" Value="{StaticResource FadeOutAnimation}" />
+
+            <!--<Setter Property="IsParallelInitialize" Value="False" />
+            <Setter Property="IsParallelDispose" Value="True" />-->
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DockPanel Margin="10">
+            <Button DockPanel.Dock="Right" Content="Open" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+            <TextBlock TextWrapping="Wrap" Text="..." Margin="0,0,5,0" VerticalAlignment="Center"/>
+        </DockPanel>
+
+        <ListBox x:Name="lstPhoto" Grid.Row="1" Margin="10"
+                 ItemsPanel="{StaticResource photoPanel}"
+                 ItemTemplate="{StaticResource photoItemTemplate}"
+                 ItemContainerStyle="{StaticResource photoContainerStyle}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ItemsSource="{Binding ImageList}">
+            
+        </ListBox>
+        
+    </Grid>
+</Window>
