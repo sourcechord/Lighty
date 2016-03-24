@@ -320,7 +320,7 @@ namespace SourceChord.Lighty
                         container.RenderTransform = transform;
                         container.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                        animation?.Begin(container);
+                        animation?.BeginAsync(container);
                     };
                 }
             }

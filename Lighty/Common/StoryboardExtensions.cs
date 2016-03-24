@@ -16,9 +16,12 @@ namespace SourceChord.Lighty.Common
 
             if (storyboard != null && target != null)
             {
+                var temp = target.CacheMode;
+                target.CacheMode = new System.Windows.Media.BitmapCache();
                 var animation = storyboard.Clone();
                 animation.Completed += (s, e) =>
                 {
+                    target.CacheMode = temp;
                     tcs.SetResult(true);
                 };
                 animation.Freeze();
