@@ -115,21 +115,23 @@
         <Grid Background="White">
             <Grid>
                 <Grid.CacheMode>
-                    <BitmapCache RenderAtScale="0.1" />
+                    <BitmapCache RenderAtScale="0.2" />
                 </Grid.CacheMode>
-                <Grid.Background>
-                    <VisualBrush Visual="{Binding AdornedElement,
-                                                  Mode=OneWay,
-                                                  RelativeSource={RelativeSource FindAncestor,
-                                                                                 AncestorType={x:Type local:LightBoxAdorner}}}"
-                                 Stretch="None"
-                                 AlignmentX="Left"
-                                 AlignmentY="Top"
-                                 ViewboxUnits="Absolute" />
-                </Grid.Background>
-                <Grid.Effect>
-                    <BlurEffect Radius="20"/>
-                </Grid.Effect>
+                <Grid>
+                    <Grid.Background>
+                        <VisualBrush Visual="{Binding AdornedElement,
+                                                      Mode=OneWay,
+                                                      RelativeSource={RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type local:LightBoxAdorner}}}"
+                                     Stretch="None"
+                                     AlignmentX="Left"
+                                     AlignmentY="Top"
+                                     ViewboxUnits="Absolute" />
+                    </Grid.Background>
+                    <Grid.Effect>
+                        <BlurEffect Radius="20"/>
+                    </Grid.Effect>
+                </Grid>
             </Grid>
             <Grid Background="#44FFFFFF" />
             <ItemsPresenter />
@@ -139,21 +141,23 @@
         <Grid Background="White">
             <Grid>
                 <Grid.CacheMode>
-                    <BitmapCache RenderAtScale="0.1" />
+                    <BitmapCache RenderAtScale="0.2" />
                 </Grid.CacheMode>
-                <Grid.Background>
-                    <VisualBrush Visual="{Binding AdornedElement,
-                                                  Mode=OneWay,
-                                                  RelativeSource={RelativeSource FindAncestor,
-                                                                                 AncestorType={x:Type local:LightBoxAdorner}}}"
-                                 Stretch="None"
-                                 AlignmentX="Left"
-                                 AlignmentY="Top"
-                                 ViewboxUnits="Absolute" />
-                </Grid.Background>
-                <Grid.Effect>
-                    <BlurEffect Radius="20"/>
-                </Grid.Effect>
+                <Grid>
+                    <Grid.Background>
+                        <VisualBrush Visual="{Binding AdornedElement,
+                                                      Mode=OneWay,
+                                                      RelativeSource={RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type local:LightBoxAdorner}}}"
+                                     Stretch="None"
+                                     AlignmentX="Left"
+                                     AlignmentY="Top"
+                                     ViewboxUnits="Absolute" />
+                    </Grid.Background>
+                    <Grid.Effect>
+                        <BlurEffect Radius="20"/>
+                    </Grid.Effect>
+                </Grid>
             </Grid>
             <Grid Background="#44000000" />
             <ItemsPresenter />
