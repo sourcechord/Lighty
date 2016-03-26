@@ -218,6 +218,24 @@ namespace SourceChord.Lighty
         /// <param name="dialog"></param>
         protected void AddDialog(FrameworkElement dialog)
         {
+            var animation = this.OpenStoryboard;
+            dialog.Loaded += (sender, args) =>
+            {
+                var container = this.ContainerFromElement(dialog) as FrameworkElement;
+                container.Focus();
+
+                var transform = new TransformGroup();
+                transform.Children.Add(new ScaleTransform());
+                transform.Children.Add(new SkewTransform());
+                transform.Children.Add(new RotateTransform());
+                transform.Children.Add(new TranslateTransform());
+                container.RenderTransform = transform;
+                container.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                animation?.BeginAsync(container);
+            };
+
+            // アイテムを追加
             this.Items.Add(dialog);
 
             // 追加したダイアログに対して、ApplicationCommands.Closeのコマンドに対するハンドラを設定。
@@ -298,34 +316,6 @@ namespace SourceChord.Lighty
             this.CompleteInitializeLightBox?.Invoke(this, null);
         }
 
-        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
-        {
-            base.OnItemsChanged(e);
-
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                var animation = this.OpenStoryboard;
-                foreach (FrameworkElement item in e.NewItems)
-                {
-                    item.Loaded += (sender, args) =>
-                    {
-                        var container = this.ContainerFromElement(item) as FrameworkElement;
-                        container.Focus();
-
-                        var transform = new TransformGroup();
-                        transform.Children.Add(new ScaleTransform());
-                        transform.Children.Add(new SkewTransform());
-                        transform.Children.Add(new RotateTransform());
-                        transform.Children.Add(new TranslateTransform());
-                        container.RenderTransform = transform;
-                        container.RenderTransformOrigin = new Point(0.5, 0.5);
-
-                        animation?.BeginAsync(container);
-                    };
-                }
-            }
-        }
-
         protected async Task<bool> Closing()
         {
             return await this.DisposeStoryboard.BeginAsync(this);
@@ -361,8 +351,6 @@ namespace SourceChord.Lighty
         // Using a DependencyProperty as the backing store for IsParallelDispose.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsParallelDisposeProperty =
             DependencyProperty.Register("IsParallelDispose", typeof(bool), typeof(LightBox), new PropertyMetadata(false));
-
-
 
 
         public Storyboard OpenStoryboard
