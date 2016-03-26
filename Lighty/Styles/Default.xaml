@@ -8,4 +8,13 @@
     <ItemsPanelTemplate x:Key="DefaultPanel">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </ItemsPanelTemplate>
+    <Style x:Key="DefaultContainerStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}" Margin="10"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

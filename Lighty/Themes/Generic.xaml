@@ -4,11 +4,16 @@
     xmlns:local="clr-namespace:SourceChord.Lighty">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Lighty;component/Styles/Default.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Lighty;component/Styles/Animation.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type local:LightBox}">
         <Setter Property="Template" Value="{StaticResource DefaultTemplate}" />
         <Setter Property="ItemsPanel" Value="{StaticResource DefaultPanel}" />
+        <Setter Property="InitializeStoryboard" Value="{StaticResource FadeInAnimation}" />
+        <Setter Property="DisposeStoryboard" Value="{StaticResource FadeOutAnimation}" />
+        <Setter Property="OpenStoryboard" Value="{StaticResource FadeInAnimation}" />
+        <Setter Property="CloseStoryboard" Value="{StaticResource FadeOutAnimation}" />
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <TransformGroup>
