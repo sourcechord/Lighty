@@ -10,6 +10,7 @@
     <Style TargetType="{x:Type local:LightBox}">
         <Setter Property="Template" Value="{StaticResource DefaultTemplate}" />
         <Setter Property="ItemsPanel" Value="{StaticResource DefaultPanel}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultContainerStyle}" />
         <Setter Property="InitializeStoryboard" Value="{StaticResource FadeInAnimation}" />
         <Setter Property="DisposeStoryboard" Value="{StaticResource FadeOutAnimation}" />
         <Setter Property="OpenStoryboard" Value="{StaticResource FadeInAnimation}" />
