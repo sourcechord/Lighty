@@ -10,7 +10,6 @@
     </Window.DataContext>
     <Window.Resources>
         <ItemsPanelTemplate x:Key="photoPanel">
-            <!--<Grid HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
             <WrapPanel ItemWidth="150" ItemHeight="100"/>
         </ItemsPanelTemplate>
 
@@ -23,7 +22,6 @@
                 <Grid.Effect>
                     <DropShadowEffect Opacity="0.8" ShadowDepth="1" BlurRadius="5" />
                 </Grid.Effect>
-                <!--<ContentPresenter Content="{Binding}" Margin="5"/>-->
                 <Image Margin="3">
                     <Image.Source>
                         <BitmapImage UriSource="{Binding}" DecodePixelWidth="150"/>
@@ -49,8 +47,8 @@
             <Setter Property="OpenStoryboard" Value="{StaticResource FadeInAnimation}" />
             <Setter Property="CloseStoryboard" Value="{StaticResource FadeOutAnimation}" />
 
-            <!--<Setter Property="IsParallelInitialize" Value="False" />
-            <Setter Property="IsParallelDispose" Value="True" />-->
+            <Setter Property="IsParallelInitialize" Value="False" />
+            <Setter Property="IsParallelDispose" Value="False" />
         </Style>
     </Window.Resources>
     <Grid>
