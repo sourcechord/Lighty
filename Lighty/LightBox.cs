@@ -114,7 +114,7 @@ namespace SourceChord.Lighty
             Dispatcher.PushFrame(frame);
         }
 
-        private static LightBoxAdorner GetAdorner(UIElement element)
+        protected static LightBoxAdorner GetAdorner(UIElement element)
         {
             // Window系のクラスだったら、Contentプロパティを利用。それ以外の場合はそのまま利用。
             var win = element as Window;
@@ -282,17 +282,16 @@ namespace SourceChord.Lighty
 
             if (this.IsParallelDispose)
             {
-                this.ClosingDialog(dialog);
+                this.DestroyDialogAsync(dialog);
             }
             else
             {
-                await this.ClosingDialog(dialog);
+                await this.DestroyDialogAsync(dialog);
             }
+
             if (index != -1 && count == 1)
             {
-                await this.Closing();
-                // このAdornerを消去するように依頼するイベントを発行する。
-                LightBox.AllDialogClosed?.Invoke(this, null);
+                await this.DestroyAdornerAsync();
             }
 
             this._closedDelegate?.Invoke(dialog);
@@ -303,25 +302,28 @@ namespace SourceChord.Lighty
 
         #region アニメーション関係のStoryboardを実行するための各種メソッド
 
-        public override void OnApplyTemplate()
+        public override async void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            this.Opening();
+            await this.InitializeAdornerAsync();
         }
 
-        public async Task Opening()
+        protected async Task InitializeAdornerAsync()
         {
             var animation = this.InitializeStoryboard;
             await animation.BeginAsync(this);
             this.CompleteInitializeLightBox?.Invoke(this, null);
         }
 
-        protected async Task<bool> Closing()
+        protected async Task<bool> DestroyAdornerAsync()
         {
-            return await this.DisposeStoryboard.BeginAsync(this);
+            var ret = await this.DisposeStoryboard.BeginAsync(this);
+            // このAdornerを消去するように依頼するイベントを発行する。
+            LightBox.AllDialogClosed?.Invoke(this, null);
+            return ret;
         }
 
-        protected async Task<bool> ClosingDialog(FrameworkElement item)
+        protected async Task<bool> DestroyDialogAsync(FrameworkElement item)
         {
             var container = this.ContainerFromElement(item) as FrameworkElement;
             await this.CloseStoryboard.BeginAsync(container);
