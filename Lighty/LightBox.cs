@@ -305,6 +305,11 @@ namespace SourceChord.Lighty
         public override async void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            // 背景クリックで、Adornerを削除する処理を追加
+            if (this.CloseOnClickBackground)
+            {
+                this.MouseLeftButtonDown += async (s, e) => { await this.DestroyAdornerAsync(); };
+            }
             await this.InitializeAdornerAsync();
         }
 
@@ -393,6 +398,19 @@ namespace SourceChord.Lighty
         // Using a DependencyProperty as the backing store for DisposeStoryboard.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DisposeStoryboardProperty =
             DependencyProperty.Register("DisposeStoryboard", typeof(Storyboard), typeof(LightBox), new PropertyMetadata(null));
+
+
+
+        public bool CloseOnClickBackground
+        {
+            get { return (bool)GetValue(CloseOnClickBackgroundProperty); }
+            set { SetValue(CloseOnClickBackgroundProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for CloseOnClickBackground.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CloseOnClickBackgroundProperty =
+            DependencyProperty.Register("CloseOnClickBackground", typeof(bool), typeof(LightBox), new PropertyMetadata(true));
+
+
 
         #endregion
     }
