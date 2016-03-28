@@ -52,7 +52,7 @@ namespace SourceChord.Lighty
     {
         private Action<FrameworkElement> _closedDelegate;
 
-        public static EventHandler AllDialogClosed;
+        public EventHandler AllDialogClosed;
 
         public EventHandler CompleteInitializeLightBox;
 
@@ -108,7 +108,7 @@ namespace SourceChord.Lighty
             if (adorner == null) { adorner = CreateAdornerModal(owner); }
 
             var frame = new DispatcherFrame();
-            LightBox.AllDialogClosed += (s, e) => { frame.Continue = false; };
+            adorner.Root.AllDialogClosed += (s, e) => { frame.Continue = false; };
             adorner.Root?.AddDialog(content);
 
             Dispatcher.PushFrame(frame);
@@ -154,7 +154,7 @@ namespace SourceChord.Lighty
             }
 
             // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
-            LightBox.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
+            lightbox.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
             layer.Add(adorner);
             return adorner;
         }
@@ -319,7 +319,7 @@ namespace SourceChord.Lighty
         {
             var ret = await this.DisposeStoryboard.BeginAsync(this);
             // このAdornerを消去するように依頼するイベントを発行する。
-            LightBox.AllDialogClosed?.Invoke(this, null);
+            this.AllDialogClosed?.Invoke(this, null);
             return ret;
         }
 
