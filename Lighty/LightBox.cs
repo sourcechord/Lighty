@@ -224,6 +224,9 @@ namespace SourceChord.Lighty
                 var container = this.ContainerFromElement(dialog) as FrameworkElement;
                 container.Focus();
 
+                // CloseOnClickBackgroundが有効な場合に、lightbox内のMouseLeftButtonDownイベントがバブルアップしないようにする。
+                container.MouseLeftButtonDown += (s, e) => { e.Handled = true; };
+
                 var transform = new TransformGroup();
                 transform.Children.Add(new ScaleTransform());
                 transform.Children.Add(new SkewTransform());
