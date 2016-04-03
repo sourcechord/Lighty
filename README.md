@@ -143,6 +143,8 @@ The way to create style is defining default style to LightBox class.
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </style>
+        <Setter Property="CloseOnClickBackground" Value="False" />
     </Window.Resources>
 ```
 
