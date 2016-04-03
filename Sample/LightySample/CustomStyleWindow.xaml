@@ -13,9 +13,40 @@
         mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="{x:Type lighty:LightBox}">
-            <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
-            <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Background="#88F5F5DC">
+                            <ItemsPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2" CornerRadius="3" Margin="10">
+                                        <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="White">
+                                            <Button HorizontalAlignment="Right"
+                                                    Command="ApplicationCommands.Close"
+                                                    CommandParameter="{Binding}"
+                                                    Content="r"
+                                                    DockPanel.Dock="Bottom"
+                                                    FontFamily="Marlett"
+                                                    Foreground="Black"
+                                                    Style="{StaticResource textButtonStyle}" />
+                                            <ContentPresenter Content="{Binding}" />
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
     <Grid>
