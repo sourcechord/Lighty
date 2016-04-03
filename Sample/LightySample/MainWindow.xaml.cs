@@ -44,16 +44,7 @@ namespace LightySample
             MessageBox.Show("Hello.");
         }
 
-        private async void OnClickShowMultiple(object sender, RoutedEventArgs e)
-        {
-            LightBox.Show(this, new SampleDialog());
 
-            await Task.Delay(1000);
-            LightBox.Show(this, new SampleDialog());
-
-            await Task.Delay(1000);
-            LightBox.Show(this, new SampleDialog());
-        }
 
         private void OnClickShowUserControl(object sender, RoutedEventArgs e)
         {
@@ -65,5 +56,35 @@ namespace LightySample
             image.Source = new BitmapImage(new Uri("Images/1.jpg", UriKind.Relative));
             LightBox.Show(this, image);
         }
+
+        private void OnClickShowInGrid(object sender, RoutedEventArgs e)
+        {
+            var image = new Image();
+            image.Source = new BitmapImage(new Uri("Images/1.jpg", UriKind.Relative));
+            LightBox.Show(this.subGrid, image);
+        }
+
+        #region 別ウィンドウで開くサンプルなど
+        private void OnClickShowMultiple(object sender, RoutedEventArgs e)
+        {
+            var win = new MultipleLightBoxWindow();
+            win.Owner = this;
+            win.Show();
+        }
+
+        private void ShowBuiltinStyleWindow(object sender, RoutedEventArgs e)
+        {
+            var win = new BuiltinStyleWindow();
+            win.Owner = this;
+            win.Show();
+        }
+
+        private void ShowCustomStyleWindow(object sender, RoutedEventArgs e)
+        {
+            var win = new CustomStyleWindow();
+            win.Owner = this;
+            win.Show();
+        }
+        #endregion
     }
 }

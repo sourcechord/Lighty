@@ -55,9 +55,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuiltinStyleWindow.xaml.cs">
+      <DependentUpon>BuiltinStyleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomStyleWindow.xaml.cs">
+      <DependentUpon>CustomStyleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MultipleLightBoxWindow.xaml.cs">
+      <DependentUpon>MultipleLightBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SampleDialog.xaml.cs">
       <DependentUpon>SampleDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="BuiltinStyleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomStyleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +87,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MultipleLightBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SampleDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

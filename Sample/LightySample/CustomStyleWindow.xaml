@@ -1,0 +1,30 @@
+﻿<Window x:Class="LightySample.CustomStyleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:lighty="clr-namespace:SourceChord.Lighty;assembly=Lighty"
+        xmlns:local="clr-namespace:LightySample"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="CustomStyleWindow"
+        Width="525"
+        Height="350"
+        MinWidth="400"
+        MinHeight="300"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="{x:Type lighty:LightBox}">
+            <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
+            <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Button Width="75"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="Button_Click"
+                Content="Button" />
+
+    </Grid>
+</Window>

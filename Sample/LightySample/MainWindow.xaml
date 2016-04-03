@@ -11,30 +11,32 @@
         MinWidth="400"
         MinHeight="300"
         mc:Ignorable="d">
-    <Window.Resources>
+    <!--<Window.Resources>
         <Style TargetType="{x:Type lighty:LightBox}">
             <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
             <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
             
-            <!--<Setter Property="InitializeStoryboard" Value="{StaticResource ZoomInAnimation}" />-->
+            <Setter Property="InitializeStoryboard" Value="{StaticResource ZoomInAnimation}" />
             <Setter Property="DisposeStoryboard" Value="{StaticResource ZoomOutAnimation}" />
             <Setter Property="OpenStoryboard" Value="{StaticResource ZoomInAnimation}" />
             <Setter Property="CloseStoryboard" Value="{StaticResource ZoomOutAnimation}" />
 
+            <Setter Property="CloseOnClickBackground" Value="False" />
+
             <Setter Property="IsParallelInitialize" Value="False" />
             <Setter Property="IsParallelDispose" Value="True" />
         </Style>
-    </Window.Resources>
+    </Window.Resources>-->
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel>
             <TextBlock Text="Basic Usage" />
+            <TextBlock Text="How to show lightbox" />
             <StackPanel Orientation="Horizontal">
                 <Button Margin="5" Width="100"
                         Click="OnClickShowButton"
@@ -47,6 +49,7 @@
                         Content="ShowAsync" />
             </StackPanel>
 
+            <TextBlock Text="Show FrameworkElement/UserControl" />
             <StackPanel Orientation="Horizontal">
                 <Button Margin="5" Width="100"
                         Click="OnClickShowUserControl"
@@ -55,23 +58,35 @@
                         Click="OnClickShowImage"
                         Content="Show Image" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Margin="5" Width="100"
-                        Click="OnClickShowMultiple"
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="Advanced Usage" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="5" Width="100"
+                        Click="OnClickShowInGrid"
                         Content="Show into Grid" />
-                <Button Margin="5"
+                    <Button Margin="5"
                         Click="OnClickShowMultiple"
                         Content="Show multiple lightbox" />
+                </StackPanel>
+                <TextBlock Text="Builtin Styles" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="5" Width="100"
+                        Click="ShowBuiltinStyleWindow"
+                        Content="Builtin Style" />
+                    <Button Margin="5" Width="100"
+                        Click="ShowCustomStyleWindow"
+                        Content="Custom Style" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Builtin Styles" />
-        </StackPanel>
-
-
-        <StackPanel Grid.Row="2">
-            <TextBlock Text="Custom Styles" />
-        </StackPanel>
+            <Grid Grid.Column="1" x:Name="subGrid"/>
+        </Grid>
     </Grid>
 </Window>
