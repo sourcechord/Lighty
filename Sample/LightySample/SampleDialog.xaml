@@ -5,16 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LightySample"
              mc:Ignorable="d" 
-             Width="200" Height="150">
+             Width="120" Height="80"
+             Background="White">
     <Grid>
-        <TextBlock Margin="23,21,0,0"
+        <TextBlock Margin="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Text="Dialog contents"
                    TextWrapping="Wrap" />
         <Button Width="75"
+                Margin="10"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
+                VerticalAlignment="Bottom"
                 Command="ApplicationCommands.Close"
                 Content="Close" />
     </Grid>

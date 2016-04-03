@@ -300,7 +300,6 @@ namespace SourceChord.Lighty
 
             this._closedDelegate?.Invoke(dialog);
         }
-
         #endregion
 
 

@@ -13,7 +13,7 @@
         mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="{x:Type lighty:LightBox}">
-            <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
+            <Setter Property="Template" Value="{StaticResource DarkBackgroundTemplate}" />
             <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
 

@@ -11,23 +11,6 @@
         MinWidth="400"
         MinHeight="300"
         mc:Ignorable="d">
-    <!--<Window.Resources>
-        <Style TargetType="{x:Type lighty:LightBox}">
-            <Setter Property="Template" Value="{StaticResource DarkGlassTemplate}" />
-            <Setter Property="ItemsPanel" Value="{StaticResource HorizontalPanel}" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource PhotoCardStyle}" />
-            
-            <Setter Property="InitializeStoryboard" Value="{StaticResource ZoomInAnimation}" />
-            <Setter Property="DisposeStoryboard" Value="{StaticResource ZoomOutAnimation}" />
-            <Setter Property="OpenStoryboard" Value="{StaticResource ZoomInAnimation}" />
-            <Setter Property="CloseStoryboard" Value="{StaticResource ZoomOutAnimation}" />
-
-            <Setter Property="CloseOnClickBackground" Value="False" />
-
-            <Setter Property="IsParallelInitialize" Value="False" />
-            <Setter Property="IsParallelDispose" Value="True" />
-        </Style>
-    </Window.Resources>-->
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition />
