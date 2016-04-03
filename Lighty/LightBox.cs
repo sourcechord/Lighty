@@ -151,6 +151,7 @@ namespace SourceChord.Lighty
                 var content = win.Content as FrameworkElement;
                 var margin = content.Margin;
                 adorner.Margin = new Thickness(-margin.Left, -margin.Top, margin.Right, margin.Bottom);
+                adorner.UseAdornedElementSize = false;
             }
 
             // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加

@@ -18,12 +18,16 @@ namespace SourceChord.Lighty
     {
         public LightBox Root { get; private set; }
 
+        public bool UseAdornedElementSize { get; set; }
+
         static LightBoxAdorner()
         {
         }
 
         public LightBoxAdorner(UIElement adornedElement) : base(adornedElement)
-        { }
+        {
+            this.UseAdornedElementSize = true;
+        }
 
         public void SetRoot(LightBox root)
         {
@@ -44,10 +48,21 @@ namespace SourceChord.Lighty
 
         protected override Size MeasureOverride(Size constraint)
         {
-            // ルートのグリッドはAdornerを付けている要素と同じサイズになるように調整
-            this.Root.Width = constraint.Width;
-            this.Root.Height = constraint.Height;
-            this.Root.Measure(constraint);
+            if (this.UseAdornedElementSize)
+            {
+                var size = this.AdornedElement.RenderSize;
+                this.Root.Width = size.Width;
+                this.Root.Height = size.Height;
+                this.Root.Measure(size);
+            }
+            else
+            {
+                // ルートのグリッドはAdornerを付けている要素と同じサイズになるように調整
+                this.Root.Width = constraint.Width;
+                this.Root.Height = constraint.Height;
+                this.Root.Measure(constraint);
+            }
+
             return this.Root.DesiredSize;
         }
 
