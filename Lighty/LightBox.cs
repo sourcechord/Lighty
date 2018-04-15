@@ -154,6 +154,12 @@ namespace SourceChord.Lighty
                 adorner.UseAdornedElementSize = false;
             }
 
+            // ダイアログ表示時にtargetがEnableだった場合、ダイアログ表示中だけDisable化する。
+            if (target.IsEnabled)
+            {
+                target.IsEnabled = false;
+                lightbox.AllDialogClosed += (s, e) => { target.IsEnabled = true; };
+            }
             // すべてのダイアログがクリアされたときに、Adornerを削除するための処理を追加
             lightbox.AllDialogClosed += (s, e) => { layer?.Remove(adorner); };
             layer.Add(adorner);
