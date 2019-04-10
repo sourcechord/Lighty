@@ -292,7 +292,7 @@ namespace SourceChord.Lighty
 
             if (this.IsParallelDispose)
             {
-                this.DestroyDialogAsync(dialog);
+                var _ = this.DestroyDialogAsync(dialog);
             }
             else
             {
@@ -317,7 +317,11 @@ namespace SourceChord.Lighty
             // 背景クリックで、Adornerを削除する処理を追加
             if (this.CloseOnClickBackground)
             {
-                this.MouseLeftButtonDown += async (s, e) => { await this.DestroyAdornerAsync(); };
+                this.MouseLeftButtonDown += (s, e) =>
+                {
+                    foreach (FrameworkElement item in Items)
+                        item.Close();
+                };
             }
             await this.InitializeAdornerAsync();
         }
